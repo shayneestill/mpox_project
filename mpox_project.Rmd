@@ -1,0 +1,62 @@
+---
+title: "Mpox Project"
+author: "Shayne Estill"
+output: github_document
+---
+
+
+```{r}
+library(janitor)
+library(rio)
+library(lubridate)
+library(skimr)
+library(epikit)
+library(gtsummary)
+library(apyramid)
+library(tidyverse)
+library(pacman)
+library(readxl)
+```
+
+```{r}
+# Install remotes if you need to (so you can install a package from GitHub)
+pacman::p_load("remotes")
+
+# Use the install_github function from remotes to install appliedepidata
+remotes::install_github("appliedepi/appliedepidata")
+```
+
+```{r}
+# Save down the two mpox files using the save_data() function from appliedepidata
+appliedepidata::save_data("mpox_linelist",
+                        path = "data")
+
+appliedepidata::save_data("mpox_aggregate_table",
+                          path = "data")
+```
+
+Read the data into this file
+```{r}
+mpox_table = read_csv(file = "./data/mpox_aggregate_table.csv")
+
+mpox_linelist = read_excel("./data/mpox_linelist.xlsx")
+```
+
+Data exploration
+Tasks: Take a look at the different data frames and determine:
+
+- The number of columns and observations (e.g. their dimensions)
+- The class of their columns and whether it matches its nature (e.g., are “dates” considered “dates” by R?)
+- If the contents of columns are clean and standardized in the mpox linelist (e.g. gender, clinical symptoms, outcome, hiv status and sexual orientation). Do you need to recode any of them?
+- How unknown or missing data is categorized in these columns. Do these values need to be standardized?
+```{r}
+mpox_table = 
+    janitor::clean_names(mpox_table)
+
+mpox_linelist = 
+    janitor::clean_names(mpox_linelist)
+```
+
+The mpox_table dataset has `r nrow(mpox_table)` rows and `r nrow(mpox_table)` columns. 
+
+The mpox_linelist dataset has `r nrow(mpox_linelist)` rows and `r nrow(mpox_linelist)` columns. 
